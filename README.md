@@ -1,6 +1,6 @@
 
 # Sentimet Analysis with NLP
-The problem is a binary classification of text data: a sentiment analysis for movie reviews as positive or negative? My goal is to train a model on the text of a movie review that can predict the polarity of each review.
+A binary classification problem of text data: a sentiment analysis for movie reviews as positive or negative? My goal is to train a model on the text of a movie review that can predict the polarity of each review.
 
 # Objectives
 
