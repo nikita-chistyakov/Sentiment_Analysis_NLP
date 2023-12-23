@@ -100,170 +100,95 @@ Steps for feature generation:
 - Name the output column length.
 - Copy-paste the expression length(text) to calculate the length in characters of the movie review.
 - Click Run, and open the output dataset again.
-- Click + Add a New Step at the bottom left.
-
-Search for and select Formula.
-
-Name the output column length.
-
-Copy-paste the expression length(text) to calculate the length in characters of the movie review.
-
-Click Run, and open the output dataset again.
 
 
-You can use the Analyze tool on the new length column to see its distribution from the Prepare recipe. You could also use the Charts tab in the output dataset to examine if there is a relationship between the length of a review and its polarity.
+User note: I can use the Analyze tool on the new length column to see its distribution from the Prepare recipe. I can also use the Charts tab in the output dataset to examine if there is a relationship between the length of a review and its polarity.
 
-Train more models
-Once again, let’s train a new session of models.
+# Train more models
+Steps for training a new session of models:
 
-Return to the previous modeling task.
+- Return to the previous modeling task.
+- Before training, navigate to the Design tab.
+- Select the Features handling panel on the left.
+- Confirm length is included as a feature.
+- Click Train.
+- Name the session length added.
+- Click Train again.
 
-Before training, navigate to the Design tab.
-
-Select the Features handling panel on the left.
-
-Confirm length is included as a feature.
-
-Click Train.
-
-Name the session length added.
-
-Click Train again.
-
-Dataiku screenshot of a dialog for training a model.
 This iteration shows a bit more improvement in both the logistic regression and random forest models.
 
-Dataiku screenshot of the results of a third model.
-Aside from the specific results we witnessed here, the larger takeaway is the value that text cleaning and feature engineering can bring to any NLP modeling task.
+Aside from the specific results I witnessed here, the larger takeaway is the value that text cleaning and feature engineering can bring to any NLP modeling task.
 
-Tip
 
-Feel free to experiment by adding new features on your own. For example, you might use:
+# Pre-process text features for machine learning
+So far I have applying simple text cleaning operations and feature engineering to improve a model that classifies positive and negative movie reviews.
 
-A formula to calculate the ratio of the string length of the raw and simplified text column.
+However, these are not the only tools at my disposal. Dataiku also offers many preprocessing methods within the model design.
 
-The Extract numbers processor to identify which reviews have numbers.
+Next, I am experimenting with different text handling methods before I can evaluate the performance of my chosen model against a test dataset.
 
-The Count occurrences processor to count the number of times some indicative word appears in a review.
+## Count vectorization text handling
+Steps for aplying count vectorization to the text feature:
 
-Pre-process text features for machine learning
-We now have applied simple text cleaning operations and feature engineering to improve a model that classifies positive and negative movie reviews.
+- From the modeling task, navigate to the Design tab.
+- Select the Features handling pane.
+- Select the text feature.
+- Change the text handling setting to Count vectorization.
+- Click Train.
+- Name the session count vec.
+- Read the warning message about unsupported sparse features, and then check the box to ignore it.
+- Click Train.
 
-However, these are not the only tools at our disposal. Dataiku also offers many preprocessing methods within the model design.
+When the fourth session finishes training, I can see that the count vectorization models have a performance edge over their predecessors.
 
-Let’s experiment with different text handling methods before we evaluate the performance of our chosen model against a test dataset.
+In addition to the performance boost, they also have an edge in interpretability. In the logistic regression model for example, I can see features such as whether the text column contains a word like worst or excel.
 
-Count vectorization text handling
-Let’s apply count vectorization to the text feature.
-
-From the modeling task, navigate to the Design tab.
-
-Select the Features handling pane.
-
-Select the text feature.
-
-Change the text handling setting to Count vectorization.
-
-Click Train.
-
-Name the session count vec.
-
-Read the warning message about unsupported sparse features, and then check the box to ignore it.
-
-Click Train.
-
-Dataiku screenshot of the features handling panel of a model.
-When the fourth session finishes training, we can see that the count vectorization models have a performance edge over their predecessors.
-
-In addition to the performance boost, they also have an edge in interpretability. In the logistic regression model for example, we can see features such as whether the text column contains a word like worst or excel.
-
-On the left, select the Logistic Regression model from the count vec session.
-
-Navigate to the Regression coefficients panel on the left.
-
-Dataiku screenshot of the regression coefficients of a model.
-These benefits, however, did not come entirely for free. We can expect the training time of the count vectorization models to be longer than that of the tokenization, hashing and SVD models.
+# 
+These benefits, however, did not come entirely for free. I can expect the training time of the count vectorization models to be longer than that of the tokenization, hashing and SVD models.
 
 For this small dataset, the difference may be relatively small. For a larger dataset, the increase in training time could be a critical tradeoff.
 
-To see for yourself:
 
-Click Models near the top left to return to the model training results.
+# Deploying a model from the Lab to Flow
+When I have sufficiently explored building models, the next step is to deploy one from the Lab to the Flow.
 
-Click the Table view on the right to compare training times.
-
-Dataiku screenshot of a table of model results.
-Tip
-
-On your own, try training more models with different settings in the feature handling pane. For example:
-
-Switch the text handling method to TF/IDF vectorization.
-
-Observe the effects of increasing or decreasing the “Min. rows fraction %” or “Max. rows fraction %”.
-
-Include bigrams in the Ngrams setting by increasing the upper limit to 2 words.
-
-Deploy a model from the Lab to Flow
-When you have sufficiently explored building models, the next step is to deploy one from the Lab to the Flow.
-
-A number of factors — such as performance, interpretability, and scalability — could influence the decision of which model to deploy. Here, we’ll just choose our best performing model.
+A number of factors — such as performance, interpretability, and scalability — could influence the decision of which model to deploy. Here, I’ll just choose our best performing model.
 
 From the Result tab of the modeling task, select the logistic regression model from the count vec session.
 
-Click Deploy near the upper right corner.
-
-Click Create.
-
-Dataiku screenshot of the dialog to deploy a model from the Lab to the Flow.
-Copy data preparation steps
+# Copying data preparation steps
 With a model now in the Flow, the relevant question is whether this model will perform as well on data that it has never faced before. A steep drop in performance could be a symptom of overfitting the training data.
 
-The Evaluate recipe can help answer this question. But first, we need to ensure that the test data passes through all of the same preparation steps that the training data received.
+The Evaluate recipe can help answer this question. But first, I need to ensure that the test data passes through all of the same preparation steps that the training data received.
 
-We’ll start by copying the existing Prepare recipe.
+I’ll start by copying the existing Prepare recipe.
 
-Select the Prepare recipe in the Flow.
+- Select the Prepare recipe in the Flow.
+- In the Actions sidebar, click Copy.
+- On the left, change the input dataset to IMDB_test.
+- Name the output dataset IMDB_test_prepared.
+- Click Create Recipe.
+- In the recipe’s first step, delete the non-existent sample column so that the step only removes the sentiment column.
+- Click Run.
 
-In the Actions sidebar, click Copy.
-
-On the left, change the input dataset to IMDB_test.
-
-Name the output dataset IMDB_test_prepared.
-
-Click Create Recipe.
-
-In the recipe’s first step, delete the non-existent sample column so that the step only removes the sentiment column.
-
-Click Run.
-
-Dataiku screenshot of the dialog for copying a Prepare recipe.
 
 # Evaluate the model
 Once the test data has received the same preparation treatment, I was ready to test how the model will do on this new dataset.
 
-My first step toward this goal.
+My first step toward this goal:
 
-From the Flow, select the deployed model Predict polarity (binary) and the IMDB_test_prepared dataset.
+- From the Flow, select the deployed model Predict polarity (binary) and the IMDB_test_prepared dataset.
+- Select the Evaluate recipe from the Actions sidebar.
+- Click Set for the output dataset. Name it IMDB_scored, and click Create Dataset.
+- Click Create Recipe.
+- Click Run on the Settings tab of the recipe, and then open the output dataset.
 
-Select the Evaluate recipe from the Actions sidebar.
+#
+The Evaluate recipe has appended class probabilities and predictions to the IMDB_scored dataset. As I update the active version of the model, I could keep running the Evaluate recipe to check the performance against this test dataset.
 
-Click Set for the output dataset. Name it IMDB_scored, and click Create Dataset.
-
-Click Create Recipe.
-
-Click Run on the Settings tab of the recipe, and then open the output dataset.
-
-Dataiku screenshot of the dialog for an Evaluate recipe.
-The Evaluate recipe has appended class probabilities and predictions to the IMDB_scored dataset. As we update the active version of the model, we could keep running the Evaluate recipe to check the performance against this test dataset.
-
+#
 Overall, it appears that the model’s performance on the test data was very similar to the performance on the training data. One way you could confirm this is by using the Analyze tool on the prediction and prediction_correct columns.
 
-
-The Evaluate recipe includes options for two other types of output.
-
-One is a dataset of metric logs comparing the performance of the model’s active version against the input dataset. It’s particularly useful for exporting to perform analysis elsewhere, such as perhaps a webapp.
-
-The second is a model evaluation store, a key tool for evaluating model performance in Dataiku, but outside our scope here.
 
 # Thank you
 Viola! I have successfully built a model to perform a binary classification of the text sentiment. Along the way, I:
