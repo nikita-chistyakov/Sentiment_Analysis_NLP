@@ -13,7 +13,6 @@ The problem is a binary classification of text data: a sentiment analysis for mo
 - Deploy a model from the Lab to the Flow and use the Evaluate recipe to test its performance against unseen data.
 
 # Prerequisites
-
 - Access to a Dataiku instance.
 
 - Basic knowledge of visual ML in Dataiku.
@@ -23,34 +22,27 @@ The problem is a binary classification of text data: a sentiment analysis for mo
 
 - From the project homepage, click Go to Flow (or G + F).
 
-# Note
+## Note
 
 - Downloaded the data from Kaggle and imported it as a zip file.
 
-# Build the Flow
-
-- Click Flow Actions at the bottom right of the Flow.
-
-- Click Build all.
-
-- Keep the default settings and click Build.
 
 # Explored the data
 The Flow contains two data sources:
 
-IMDB_train : Training data to create the model.
+- IMDB_train : Training data to create the model.
 
-IMDB_test : Testing data to estimate of the model’s performance on data that it did not see during training.
+- IMDB_test : Testing data to estimate of the model’s performance on data that it did not see during training.
 
 ### Started by exploring the prepared training data.
 
-1. Open the IMDB_train_prepared dataset.
+1. Opened the IMDB_train_prepared dataset.
 
 2. Computed the number of records.
 
-3. Analyze the columns. In the Categorical tab, recognized a small number of duplicates.
+3. Analyzed the columns. In the Categorical tab, recognized a small number of duplicates.
 
-4. Withiun the Natural Language tab. Founnd that the most frequent words include movie, film, and br (the HTML tag for a line break) by using the "compute" feature.
+4. Within the Natural Language tab. Founnd that the most frequent words include movie, film, and br (the HTML tag for a line break) by using the "compute" feature.
 
 5. Analyzed the polarity column on whole data, and Compute metrics for the column to find an equal number of positive and negative reviews. This is helpful to know before modeling.
 
@@ -79,48 +71,36 @@ Now that I had a baseline model to classify movie reviews into positive and nega
 ## Simplify text
 The processor library includes a variety of steps for working with natural language data.
 
-Let’s try out one of the most frequently-used steps.
+This is one of the most frequently-used steps.
 
-Return to the Flow, and open the Prepare recipe that produces the IMDB_train_prepared dataset.
+In the Flow, the Prepare recipe produces the IMDB_train_prepared dataset.
 
-Open the dropdown for the text column.
+- To simplify text, I selected the options to Stem words and Clear stop words.
 
-Select Simplify text.
+- Created the output dataset.
 
-Select the options to Stem words and Clear stop words.
 
-Click Run, and open the output dataset.
+# Trained a new session of models
+I trained a new session of models with a simplified text column. 
 
-Dataiku screenshot of the simplify text processor in a Prepare recipe.
-Important
+- In this case, cleaning the text led to only very minimal (if any) improvements over the baseline effort. This does not mean, however, that this was not a worthwhile step. I still significantly reduced the feature space without any loss in performance.
 
-Dataiku suggested the Simplify text processor because it auto-detected the meaning of the text column to be natural language.
+### The results of a second model
+- Logistic regression (baseline) : 0.869
+- Random forrest (baseline) : 0.810
 
-Train a new session of models
-With a simplified text column, let’s train a new session of models.
 
-Return to the previous modeling task. You can find it in the Lab tab of the right sidebar of the output dataset or the Visual Analyses page (G + A).
+#### Next, I tried feature engineering
 
-Click Train.
+Steps for feature generation:
 
-Name the session cleaned.
-
-Click Train again.
-
-Dataiku screenshot of a dialog for training a model.
-Important
-
-In the training dialog, Dataiku alerts us that the training data is different from the previous session.
-
-In this case, cleaning the text led to only very minimal (if any) improvements over the baseline effort. This does not mean, however, that this was not a worthwhile step. We still significantly reduced the feature space without any loss in performance.
-
-Dataiku screenshot of the results of a second model.
-Formulas for feature generation
-Next, let’s try some feature engineering.
-
-Return to the Prepare recipe.
-
-Click + Add a New Step at the bottom left.
+- Return to the Prepare recipe.
+- Click + Add a New Step at the bottom left.
+- Search for and select Formula.
+- Name the output column length.
+- Copy-paste the expression length(text) to calculate the length in characters of the movie review.
+- Click Run, and open the output dataset again.
+- Click + Add a New Step at the bottom left.
 
 Search for and select Formula.
 
@@ -130,8 +110,6 @@ Copy-paste the expression length(text) to calculate the length in characters of 
 
 Click Run, and open the output dataset again.
 
-Dataiku screenshot of a formula step in a Prepare recipe.
-Tip
 
 You can use the Analyze tool on the new length column to see its distribution from the Prepare recipe. You could also use the Charts tab in the output dataset to examine if there is a relationship between the length of a review and its polarity.
 
@@ -259,10 +237,11 @@ In the recipe’s first step, delete the non-existent sample column so that the 
 Click Run.
 
 Dataiku screenshot of the dialog for copying a Prepare recipe.
-Evaluate the model
-Once the test data has received the same preparation treatment, we are ready to test how the model will do on this new dataset.
 
-Let’s take the first step toward this goal.
+# Evaluate the model
+Once the test data has received the same preparation treatment, I was ready to test how the model will do on this new dataset.
+
+My first step toward this goal.
 
 From the Flow, select the deployed model Predict polarity (binary) and the IMDB_test_prepared dataset.
 
