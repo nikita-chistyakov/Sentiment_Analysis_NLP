@@ -121,7 +121,7 @@ Aside from the specific results I witnessed here, the larger takeaway is the val
 
 
 # Pre-process text features for machine learning
-So far I have applying simple text cleaning operations and feature engineering to improve a model that classifies positive and negative movie reviews.
+So far I have applied simple text cleaning operations and feature engineering to improve a model that classifies positive and negative movie reviews.
 
 However, these are not the only tools at my disposal. Dataiku also offers many preprocessing methods within the model design.
 
@@ -187,7 +187,7 @@ My first step toward this goal:
 The Evaluate recipe has appended class probabilities and predictions to the IMDB_scored dataset. As I update the active version of the model, I could keep running the Evaluate recipe to check the performance against this test dataset.
 
 #
-Overall, it appears that the model’s performance on the test data was very similar to the performance on the training data. One way you could confirm this is by using the Analyze tool on the prediction and prediction_correct columns.
+Overall, it appears that the model’s performance on the test data was very similar to the performance on the training data. One way I confirmed this is by using the Analyze tool on the prediction and prediction_correct columns.
 
 
 # Thank you
