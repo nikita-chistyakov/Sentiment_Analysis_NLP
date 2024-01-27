@@ -1,6 +1,6 @@
 
-# Sentimet Analysis with NLP
-A binary classification problem of text data: a sentiment analysis for movie reviews as positive or negative? My goal is to train a model on the text of a movie review that can predict the polarity of each review.
+# Sentiment Analysis with NLP
+A binary classification problem of text data: a sentiment analysis for movie reviews as positive or negative. My goal is to train a model on the text of a movie review which can predict the polarity of each review.
 
 # Objectives
 
@@ -34,7 +34,7 @@ The Flow contains two data sources:
 
 - IMDB_test : Testing data to estimate of the model’s performance on data that it did not see during training.
 
-### Started by exploring the prepared training data.
+### Started by exploring the prepared training data
 
 1. Opened the IMDB_train_prepared dataset.
 
@@ -42,7 +42,7 @@ The Flow contains two data sources:
 
 3. Analyzed the columns. In the Categorical tab, recognized a small number of duplicates.
 
-4. Within the Natural Language tab. Founnd that the most frequent words include movie, film, and br (the HTML tag for a line break) by using the "compute" feature.
+4. Within the Natural Language tab, found that the most frequent words include movie, film, and br (the HTML tag for a line break) by using the "compute" feature.
 
 5. Analyzed the polarity column on whole data, and Compute metrics for the column to find an equal number of positive and negative reviews. This is helpful to know before modeling.
 
@@ -59,7 +59,7 @@ I started with a default quick prototype in the IMDB_train_prepared dataset.
 
 - The default text handling method is Tokenization, hashing and SVD. I’ll experiment with others later. For now, let’s stick with the default option.
 
-# Train baseline models
+# Evaluate a baseline models
 With the text column now included as a feature in the model design, I trained a session of baseline models.
 
 - Logistic regression (baseline) : 0.869
@@ -102,9 +102,9 @@ Steps for feature generation:
 - Click Run, and open the output dataset again.
 
 
-User note: I can use the Analyze tool on the new length column to see its distribution from the Prepare recipe. I can also use the Charts tab in the output dataset to examine if there is a relationship between the length of a review and its polarity.
+Note: I can use the Analyze tool on the new length column to see its distribution from the Prepare recipe. I can also use the Charts tab in the output dataset to examine if there is a relationship between the length of a review and its polarity.
 
-# Train more models
+# Train additional models
 Steps for training a new session of models:
 
 - Return to the previous modeling task.
@@ -143,7 +143,7 @@ When the fourth session finishes training, I can see that the count vectorizatio
 
 In addition to the performance boost, they also have an edge in interpretability. In the logistic regression model for example, I can see features such as whether the text column contains a word like worst or excel.
 
-# 
+# Computational costs
 These benefits, however, did not come entirely for free. I can expect the training time of the count vectorization models to be longer than that of the tokenization, hashing and SVD models.
 
 For this small dataset, the difference may be relatively small. For a larger dataset, the increase in training time could be a critical tradeoff.
